@@ -10,44 +10,47 @@ FACTOR_KG_A_LIBRAS = 2.20462
 CERO_ABSOLUTO_C = -273.15
 
 
-def celsius_a_fahrenheit(celsius):
+def _validar_temperatura(celsius):
     # Valida que la temperatura sea físicamente posible
     if celsius < CERO_ABSOLUTO_C:
         raise ValueError("Temperatura por debajo del cero absoluto")
+
+
+def _validar_no_negativo(valor, magnitud):
+    # Las distancias y masas negativas no tienen sentido físico
+    if valor < 0:
+        raise ValueError(f"{magnitud} no puede ser negativa")
+
+
+def celsius_a_fahrenheit(celsius):
+    _validar_temperatura(celsius)
     return celsius * 9 / 5 + 32
 
 
 def fahrenheit_a_celsius(fahrenheit):
     # Convierte grados Fahrenheit a Celsius
     resultado = (fahrenheit - 32) * 5 / 9
-    if resultado < CERO_ABSOLUTO_C:
-        raise ValueError("Temperatura por debajo del cero absoluto")
+    _validar_temperatura(resultado)
     return resultado
 
 
 def km_a_millas(km):
-    # Las distancias negativas no tienen sentido físico
-    if km < 0:
-        raise ValueError("La distancia no puede ser negativa")
+    _validar_no_negativo(km, "La distancia")
     return km * FACTOR_KM_A_MILLAS
 
 
 def millas_a_km(millas):
-    if millas < 0:
-        raise ValueError("La distancia no puede ser negativa")
+    _validar_no_negativo(millas, "La distancia")
     return millas / FACTOR_KM_A_MILLAS
 
 
 def kg_a_libras(kg):
-    # Las masas negativas no tienen sentido físico
-    if kg < 0:
-        raise ValueError("La masa no puede ser negativa")
+    _validar_no_negativo(kg, "La masa")
     return kg * FACTOR_KG_A_LIBRAS
 
 
 def libras_a_kg(libras):
-    if libras < 0:
-        raise ValueError("La masa no puede ser negativa")
+    _validar_no_negativo(libras, "La masa")
     return libras / FACTOR_KG_A_LIBRAS
 
 
