@@ -1,6 +1,7 @@
-# cli.py
-# Interfaz de línea de comandos del conversor de unidades.
-# Uso: python cli.py VALOR CLAVE   |   python cli.py --listar
+"""Interfaz de línea de comandos del conversor de unidades.
+
+Uso: python cli.py VALOR CLAVE   |   python cli.py --listar
+"""
 
 import argparse
 import sys
@@ -10,6 +11,7 @@ from conversor import CONVERSIONES, ConversionNoSoportadaError, convertir
 
 
 def construir_parser() -> argparse.ArgumentParser:
+    """Crea el parser de argumentos de la CLI."""
     parser = argparse.ArgumentParser(
         prog="conversor",
         description="Conversor de unidades de línea de comandos",
@@ -34,13 +36,14 @@ def construir_parser() -> argparse.ArgumentParser:
 
 
 def listar_conversiones() -> None:
-    # Imprime la tabla de conversiones disponibles
+    """Imprime la tabla de conversiones disponibles."""
     print("Conversiones disponibles:")
     for clave, conversion in sorted(CONVERSIONES.items()):
         print(f"  {clave:8s} {conversion.descripcion}")
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """Ejecuta la CLI y devuelve el código de salida."""
     parser = construir_parser()
     args = parser.parse_args(argv)
 

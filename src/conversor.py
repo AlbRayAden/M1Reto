@@ -1,6 +1,4 @@
-# conversor.py
-# Módulo principal del conversor de unidades.
-# Contiene las funciones de conversión y el registro de conversiones disponibles.
+"""Funciones de conversión de unidades y registro de conversiones disponibles."""
 
 import math
 from collections.abc import Callable
@@ -20,63 +18,74 @@ DECIMALES_SALIDA = 4
 
 
 class ConversionNoSoportadaError(KeyError):
-    """Se lanza cuando la clave de conversión no existe en CONVERSIONES."""
+    """Se lanza cuando la clave de conversión no existe en CONVERSIONES.
+
+    Hereda de KeyError para mantener compatibilidad con código que ya la capturaba así.
+    """
 
     def __init__(self, clave: str, disponibles: list[str]) -> None:
+        """Guarda la clave inválida y arma el mensaje con las claves disponibles."""
         super().__init__(clave)
         self.clave = clave
         self.mensaje = f"Conversión no soportada: {clave}. Usa una de: {', '.join(disponibles)}"
 
     def __str__(self) -> str:
-        # KeyError.__str__ envolvería el mensaje en comillas
+        """Devuelve el mensaje sin las comillas que agrega KeyError.__str__."""
         return self.mensaje
 
 
 def _validar_temperatura(celsius: float) -> None:
-    # Valida que la temperatura sea físicamente posible
+    """Lanza ValueError si la temperatura está por debajo del cero absoluto."""
     if celsius < CERO_ABSOLUTO_C:
         raise ValueError("Temperatura por debajo del cero absoluto")
 
 
 def _validar_no_negativo(valor: float, magnitud: str) -> None:
-    # Las distancias y masas negativas no tienen sentido físico
+    """Lanza ValueError si una magnitud física (distancia, masa) es negativa."""
     if valor < 0:
         raise ValueError(f"{magnitud} no puede ser negativa")
 
 
 def celsius_a_fahrenheit(celsius: float) -> float:
+    """Convierte grados Celsius a Fahrenheit."""
     _validar_temperatura(celsius)
     return celsius * FACTOR_CELSIUS_A_FAHRENHEIT + DESPLAZAMIENTO_FAHRENHEIT
 
 
 def fahrenheit_a_celsius(fahrenheit: float) -> float:
-    # Convierte grados Fahrenheit a Celsius
+    """Convierte grados Fahrenheit a Celsius."""
     resultado = (fahrenheit - DESPLAZAMIENTO_FAHRENHEIT) / FACTOR_CELSIUS_A_FAHRENHEIT
     _validar_temperatura(resultado)
     return resultado
 
 
 def km_a_millas(km: float) -> float:
+    """Convierte kilómetros a millas."""
     _validar_no_negativo(km, "La distancia")
     return km * FACTOR_KM_A_MILLAS
 
 
 def millas_a_km(millas: float) -> float:
+    """Convierte millas a kilómetros."""
     _validar_no_negativo(millas, "La distancia")
     return millas / FACTOR_KM_A_MILLAS
 
 
 def kg_a_libras(kg: float) -> float:
+    """Convierte kilogramos a libras."""
     _validar_no_negativo(kg, "La masa")
     return kg * FACTOR_KG_A_LIBRAS
 
 
 def libras_a_kg(libras: float) -> float:
+    """Convierte libras a kilogramos."""
     _validar_no_negativo(libras, "La masa")
     return libras / FACTOR_KG_A_LIBRAS
 
 
 class Conversion(NamedTuple):
+    """Entrada del registro: función de conversión y su descripción legible."""
+
     funcion: Callable[[float], float]
     descripcion: str
 
@@ -93,7 +102,12 @@ CONVERSIONES: dict[str, Conversion] = {
 
 
 def convertir(valor: float, clave: str) -> float:
-    # Punto de entrada único para todas las conversiones
+    """Convierte `valor` según `clave` y redondea a DECIMALES_SALIDA decimales.
+
+    Raises:
+        ConversionNoSoportadaError: si `clave` no está en CONVERSIONES.
+        ValueError: si `valor` no es finito o no es físicamente válido.
+    """
     if clave not in CONVERSIONES:
         raise ConversionNoSoportadaError(clave, sorted(CONVERSIONES))
     if not math.isfinite(valor):
