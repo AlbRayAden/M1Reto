@@ -9,6 +9,11 @@ from collections.abc import Sequence
 
 from conversor import CONVERSIONES, ConversionNoSoportadaError, convertir
 
+# Códigos de salida del proceso
+EXITO = 0
+ERROR_CONVERSION = 1
+USO_INCORRECTO = 2
+
 
 def construir_parser() -> argparse.ArgumentParser:
     """Crea el parser de argumentos de la CLI."""
@@ -49,22 +54,22 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.listar:
         listar_conversiones()
-        return 0
+        return EXITO
 
     # Sin --listar se requieren ambos argumentos posicionales
     if args.valor is None or args.clave is None:
         parser.print_usage()
         print("Error: se requieren VALOR y CLAVE (o usa --listar)", file=sys.stderr)
-        return 2
+        return USO_INCORRECTO
 
     try:
         resultado = convertir(args.valor, args.clave)
     except (ValueError, ConversionNoSoportadaError) as error:
         print(f"Error: {error}", file=sys.stderr)
-        return 1
+        return ERROR_CONVERSION
 
     print(resultado)
-    return 0
+    return EXITO
 
 
 if __name__ == "__main__":
