@@ -35,8 +35,8 @@ def construir_parser():
 def listar_conversiones():
     # Imprime la tabla de conversiones disponibles
     print("Conversiones disponibles:")
-    for clave, (_, descripcion) in sorted(CONVERSIONES.items()):
-        print(f"  {clave:8s} {descripcion}")
+    for clave, conversion in sorted(CONVERSIONES.items()):
+        print(f"  {clave:8s} {conversion.descripcion}")
 
 
 def main(argv=None):

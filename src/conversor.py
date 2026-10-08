@@ -2,6 +2,8 @@
 # Módulo principal del conversor de unidades.
 # Contiene las funciones de conversión y el registro de conversiones disponibles.
 
+from typing import NamedTuple
+
 # Factores de conversión (valores de referencia internacionales)
 FACTOR_KM_A_MILLAS = 0.621371
 FACTOR_KG_A_LIBRAS = 2.20462
@@ -59,14 +61,19 @@ def libras_a_kg(libras):
     return libras / FACTOR_KG_A_LIBRAS
 
 
-# Registro central: clave de conversión -> (función, descripción)
+class Conversion(NamedTuple):
+    funcion: object
+    descripcion: str
+
+
+# Registro central: clave de conversión -> Conversion
 CONVERSIONES = {
-    "c2f": (celsius_a_fahrenheit, "Celsius a Fahrenheit"),
-    "f2c": (fahrenheit_a_celsius, "Fahrenheit a Celsius"),
-    "km2mi": (km_a_millas, "Kilómetros a millas"),
-    "mi2km": (millas_a_km, "Millas a kilómetros"),
-    "kg2lb": (kg_a_libras, "Kilogramos a libras"),
-    "lb2kg": (libras_a_kg, "Libras a kilogramos"),
+    "c2f": Conversion(celsius_a_fahrenheit, "Celsius a Fahrenheit"),
+    "f2c": Conversion(fahrenheit_a_celsius, "Fahrenheit a Celsius"),
+    "km2mi": Conversion(km_a_millas, "Kilómetros a millas"),
+    "mi2km": Conversion(millas_a_km, "Millas a kilómetros"),
+    "kg2lb": Conversion(kg_a_libras, "Kilogramos a libras"),
+    "lb2kg": Conversion(libras_a_kg, "Libras a kilogramos"),
 }
 
 
@@ -75,5 +82,4 @@ def convertir(valor, clave):
     if clave not in CONVERSIONES:
         disponibles = ", ".join(sorted(CONVERSIONES))
         raise KeyError(f"Conversión no soportada: {clave}. Usa una de: {disponibles}")
-    funcion, _ = CONVERSIONES[clave]
-    return round(funcion(valor), DECIMALES_SALIDA)
+    return round(CONVERSIONES[clave].funcion(valor), DECIMALES_SALIDA)
