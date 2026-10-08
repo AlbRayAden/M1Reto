@@ -1,0 +1,22 @@
+# Entornos virtuales y dependencias instaladas
+.venv/
+venv/
+env/
+
+# Artefactos generados por Python y herramientas
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+
+# Metadatos de macOS que venían en el .zip del reto
+__MACOSX/
+.DS_Store
+
+# Evidencias binarias (capturas): no aportan contexto de código
+docs/evidencia/*.png
