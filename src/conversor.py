@@ -19,7 +19,7 @@ def celsius_a_fahrenheit(celsius):
 
 def fahrenheit_a_celsius(fahrenheit):
     # Convierte grados Fahrenheit a Celsius
-    resultado = (fahrenheit - 32) * 9 / 5
+    resultado = (fahrenheit - 32) * 5 / 9
     if resultado < CERO_ABSOLUTO_C:
         raise ValueError("Temperatura por debajo del cero absoluto")
     return resultado

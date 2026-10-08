@@ -48,7 +48,6 @@ def test_celsius_a_fahrenheit_bajo_cero_absoluto():
         celsius_a_fahrenheit(-300)
 
 
-@pytest.mark.xfail(strict=True, reason="Bug: usa 9/5 en lugar de 5/9")
 @pytest.mark.parametrize(("fahrenheit", "celsius"), [(212, 100), (-40, -40)])
 def test_fahrenheit_a_celsius_valores_conocidos(fahrenheit, celsius):
     assert fahrenheit_a_celsius(fahrenheit) == pytest.approx(celsius)

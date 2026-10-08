@@ -36,6 +36,14 @@ python src/cli.py 100 c2f # prueba manual
 3. Un commit por refactorización, con prefijo convencional (`refactor:`, `test:`, `fix:`,
    `docs:`, `chore:`).
 4. Registra el paso en `docs/bitacora.md` (prompt, cambio, justificación, resultado de tests).
+5. **Antes de tocar código sin cobertura, escribe tests de caracterización.** La suite
+   original sólo probaba 2 de 6 conversiones y por eso no detectaba el bug de
+   `fahrenheit_a_celsius`.
+6. Si descubres un bug, no lo arregles dentro de un refactor: documéntalo con
+   `@pytest.mark.xfail(strict=True)` y corrígelo en un commit `fix:` aparte.
+7. Para valores de prueba de conversiones elige puntos que distingan la fórmula
+   (p. ej. 212 °F → 100 °C, -40 °F → -40 °C). Ojo: 32 °F → 0 °C pasa aunque la
+   fórmula esté mal, porque `(32 - 32) * k == 0`.
 
 ## Convenciones de código
 
