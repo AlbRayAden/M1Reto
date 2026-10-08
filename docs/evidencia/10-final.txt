@@ -1,0 +1,62 @@
+$ pytest -v
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.6.0 -- python3
+rootdir: .
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 37 items
+
+tests/test_cli.py::test_conversion_exitosa PASSED                        [  2%]
+tests/test_cli.py::test_listar PASSED                                    [  5%]
+tests/test_cli.py::test_sin_argumentos_es_uso_incorrecto PASSED          [  8%]
+tests/test_cli.py::test_falta_clave_es_uso_incorrecto PASSED             [ 10%]
+tests/test_cli.py::test_clave_invalida_muestra_error_sin_comillas PASSED [ 13%]
+tests/test_cli.py::test_valor_invalido_muestra_error PASSED              [ 16%]
+tests/test_cli.py::test_valor_no_finito_es_error PASSED                  [ 18%]
+tests/test_cli.py::test_codigos_de_salida_estables PASSED                [ 21%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_punto_ebullicion PASSED [ 24%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_punto_congelacion PASSED [ 27%]
+tests/test_conversor.py::test_km_a_millas_valor_conocido PASSED          [ 29%]
+tests/test_conversor.py::test_convertir_clave_invalida PASSED            [ 32%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_cero_absoluto_es_valido PASSED [ 35%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_bajo_cero_absoluto PASSED [ 37%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_valores_conocidos[212-100] PASSED [ 40%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_valores_conocidos[-40--40] PASSED [ 43%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_punto_congelacion PASSED [ 45%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_bajo_cero_absoluto PASSED [ 48%]
+tests/test_conversor.py::test_millas_a_km_valor_conocido PASSED          [ 51%]
+tests/test_conversor.py::test_kg_a_libras_valor_conocido PASSED          [ 54%]
+tests/test_conversor.py::test_libras_a_kg_valor_conocido PASSED          [ 56%]
+tests/test_conversor.py::test_distancia_negativa[km_a_millas] PASSED     [ 59%]
+tests/test_conversor.py::test_distancia_negativa[millas_a_km] PASSED     [ 62%]
+tests/test_conversor.py::test_masa_negativa[kg_a_libras] PASSED          [ 64%]
+tests/test_conversor.py::test_masa_negativa[libras_a_kg] PASSED          [ 67%]
+tests/test_conversor.py::test_cero_es_valido[km_a_millas] PASSED         [ 70%]
+tests/test_conversor.py::test_cero_es_valido[millas_a_km] PASSED         [ 72%]
+tests/test_conversor.py::test_cero_es_valido[kg_a_libras] PASSED         [ 75%]
+tests/test_conversor.py::test_cero_es_valido[libras_a_kg] PASSED         [ 78%]
+tests/test_conversor.py::test_claves_registradas PASSED                  [ 81%]
+tests/test_conversor.py::test_convertir_redondea_a_cuatro_decimales PASSED [ 83%]
+tests/test_conversor.py::test_convertir_clave_invalida_lista_disponibles PASSED [ 86%]
+tests/test_conversor.py::test_convertir_propaga_value_error PASSED       [ 89%]
+tests/test_conversor.py::test_convertir_rechaza_valores_no_finitos[nan] PASSED [ 91%]
+tests/test_conversor.py::test_convertir_rechaza_valores_no_finitos[inf] PASSED [ 94%]
+tests/test_conversor.py::test_convertir_rechaza_valores_no_finitos[-inf] PASSED [ 97%]
+tests/test_conversor.py::test_clave_invalida_tiene_mensaje_legible PASSED [100%]
+
+============================== 37 passed in 0.02s ==============================
+exit: 0
+
+$ ruff check .
+All checks passed!
+exit: 0
+
+$ ruff format --check .
+8 files already formatted
+exit: 0
+
+$ mypy
+Success: no issues found in 2 source files
+
+$ python src/cli.py 212 f2c
+100.0

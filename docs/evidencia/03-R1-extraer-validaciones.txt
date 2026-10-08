@@ -1,0 +1,50 @@
+$ pytest -v
+============================= test session starts ==============================
+platform linux -- Python 3.14.4, pytest-9.1.1, pluggy-1.6.0 -- python3
+rootdir: .
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 31 items
+
+tests/test_cli.py::test_conversion_exitosa PASSED                        [  3%]
+tests/test_cli.py::test_listar PASSED                                    [  6%]
+tests/test_cli.py::test_sin_argumentos_es_uso_incorrecto PASSED          [  9%]
+tests/test_cli.py::test_falta_clave_es_uso_incorrecto PASSED             [ 12%]
+tests/test_cli.py::test_clave_invalida_muestra_error_sin_comillas PASSED [ 16%]
+tests/test_cli.py::test_valor_invalido_muestra_error PASSED              [ 19%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_punto_ebullicion PASSED [ 22%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_punto_congelacion PASSED [ 25%]
+tests/test_conversor.py::test_km_a_millas_valor_conocido PASSED          [ 29%]
+tests/test_conversor.py::test_convertir_clave_invalida PASSED            [ 32%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_cero_absoluto_es_valido PASSED [ 35%]
+tests/test_conversor.py::test_celsius_a_fahrenheit_bajo_cero_absoluto PASSED [ 38%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_valores_conocidos[212-100] PASSED [ 41%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_valores_conocidos[-40--40] PASSED [ 45%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_punto_congelacion PASSED [ 48%]
+tests/test_conversor.py::test_fahrenheit_a_celsius_bajo_cero_absoluto PASSED [ 51%]
+tests/test_conversor.py::test_millas_a_km_valor_conocido PASSED          [ 54%]
+tests/test_conversor.py::test_kg_a_libras_valor_conocido PASSED          [ 58%]
+tests/test_conversor.py::test_libras_a_kg_valor_conocido PASSED          [ 61%]
+tests/test_conversor.py::test_distancia_negativa[km_a_millas] PASSED     [ 64%]
+tests/test_conversor.py::test_distancia_negativa[millas_a_km] PASSED     [ 67%]
+tests/test_conversor.py::test_masa_negativa[kg_a_libras] PASSED          [ 70%]
+tests/test_conversor.py::test_masa_negativa[libras_a_kg] PASSED          [ 74%]
+tests/test_conversor.py::test_cero_es_valido[km_a_millas] PASSED         [ 77%]
+tests/test_conversor.py::test_cero_es_valido[millas_a_km] PASSED         [ 80%]
+tests/test_conversor.py::test_cero_es_valido[kg_a_libras] PASSED         [ 83%]
+tests/test_conversor.py::test_cero_es_valido[libras_a_kg] PASSED         [ 87%]
+tests/test_conversor.py::test_claves_registradas PASSED                  [ 90%]
+tests/test_conversor.py::test_convertir_redondea_a_cuatro_decimales PASSED [ 93%]
+tests/test_conversor.py::test_convertir_clave_invalida_lista_disponibles PASSED [ 96%]
+tests/test_conversor.py::test_convertir_propaga_value_error PASSED       [100%]
+
+============================== 31 passed in 0.02s ==============================
+exit: 0
+
+$ ruff check .
+All checks passed!
+exit: 0
+
+$ ruff format --check .
+5 files already formatted
+exit: 0
