@@ -35,3 +35,8 @@ def test_clave_invalida_muestra_error_sin_comillas(capsys):
 def test_valor_invalido_muestra_error(capsys):
     assert main(["-5", "km2mi"]) == 1
     assert capsys.readouterr().err.strip() == "Error: La distancia no puede ser negativa"
+
+
+def test_valor_no_finito_es_error(capsys):
+    assert main(["nan", "c2f"]) == 1
+    assert capsys.readouterr().err.strip() == "Error: El valor debe ser un número finito"

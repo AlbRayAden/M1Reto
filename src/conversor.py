@@ -2,6 +2,7 @@
 # Módulo principal del conversor de unidades.
 # Contiene las funciones de conversión y el registro de conversiones disponibles.
 
+import math
 from collections.abc import Callable
 from typing import NamedTuple
 
@@ -16,6 +17,19 @@ CERO_ABSOLUTO_C = -273.15
 
 # Decimales con los que convertir() redondea para una salida consistente
 DECIMALES_SALIDA = 4
+
+
+class ConversionNoSoportadaError(KeyError):
+    """Se lanza cuando la clave de conversión no existe en CONVERSIONES."""
+
+    def __init__(self, clave: str, disponibles: list[str]) -> None:
+        super().__init__(clave)
+        self.clave = clave
+        self.mensaje = f"Conversión no soportada: {clave}. Usa una de: {', '.join(disponibles)}"
+
+    def __str__(self) -> str:
+        # KeyError.__str__ envolvería el mensaje en comillas
+        return self.mensaje
 
 
 def _validar_temperatura(celsius: float) -> None:
@@ -81,6 +95,7 @@ CONVERSIONES: dict[str, Conversion] = {
 def convertir(valor: float, clave: str) -> float:
     # Punto de entrada único para todas las conversiones
     if clave not in CONVERSIONES:
-        disponibles = ", ".join(sorted(CONVERSIONES))
-        raise KeyError(f"Conversión no soportada: {clave}. Usa una de: {disponibles}")
+        raise ConversionNoSoportadaError(clave, sorted(CONVERSIONES))
+    if not math.isfinite(valor):
+        raise ValueError("El valor debe ser un número finito")
     return round(CONVERSIONES[clave].funcion(valor), DECIMALES_SALIDA)

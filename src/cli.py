@@ -6,7 +6,7 @@ import argparse
 import sys
 from collections.abc import Sequence
 
-from conversor import CONVERSIONES, convertir
+from conversor import CONVERSIONES, ConversionNoSoportadaError, convertir
 
 
 def construir_parser() -> argparse.ArgumentParser:
@@ -56,9 +56,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     try:
         resultado = convertir(args.valor, args.clave)
-    except (ValueError, KeyError) as error:
-        # KeyError envuelve el mensaje entre comillas; lo limpiamos para el usuario
-        print(f"Error: {str(error).strip(chr(39))}", file=sys.stderr)
+    except (ValueError, ConversionNoSoportadaError) as error:
+        print(f"Error: {error}", file=sys.stderr)
         return 1
 
     print(resultado)

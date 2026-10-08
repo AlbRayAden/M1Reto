@@ -5,6 +5,7 @@ import pytest
 
 from conversor import (
     CONVERSIONES,
+    ConversionNoSoportadaError,
     celsius_a_fahrenheit,
     convertir,
     fahrenheit_a_celsius,
@@ -108,3 +109,16 @@ def test_convertir_clave_invalida_lista_disponibles():
 def test_convertir_propaga_value_error():
     with pytest.raises(ValueError):
         convertir(-1, "kg2lb")
+
+
+@pytest.mark.parametrize("valor", [float("nan"), float("inf"), float("-inf")])
+def test_convertir_rechaza_valores_no_finitos(valor):
+    with pytest.raises(ValueError, match="número finito"):
+        convertir(valor, "km2mi")
+
+
+def test_clave_invalida_tiene_mensaje_legible():
+    with pytest.raises(ConversionNoSoportadaError) as excinfo:
+        convertir(5, "xyz")
+    assert str(excinfo.value).startswith("Conversión no soportada: xyz.")
+    assert excinfo.value.clave == "xyz"
