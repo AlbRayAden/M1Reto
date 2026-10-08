@@ -2,6 +2,7 @@
 # Módulo principal del conversor de unidades.
 # Contiene las funciones de conversión y el registro de conversiones disponibles.
 
+from collections.abc import Callable
 from typing import NamedTuple
 
 # Factores de conversión (valores de referencia internacionales)
@@ -17,57 +18,57 @@ CERO_ABSOLUTO_C = -273.15
 DECIMALES_SALIDA = 4
 
 
-def _validar_temperatura(celsius):
+def _validar_temperatura(celsius: float) -> None:
     # Valida que la temperatura sea físicamente posible
     if celsius < CERO_ABSOLUTO_C:
         raise ValueError("Temperatura por debajo del cero absoluto")
 
 
-def _validar_no_negativo(valor, magnitud):
+def _validar_no_negativo(valor: float, magnitud: str) -> None:
     # Las distancias y masas negativas no tienen sentido físico
     if valor < 0:
         raise ValueError(f"{magnitud} no puede ser negativa")
 
 
-def celsius_a_fahrenheit(celsius):
+def celsius_a_fahrenheit(celsius: float) -> float:
     _validar_temperatura(celsius)
     return celsius * FACTOR_CELSIUS_A_FAHRENHEIT + DESPLAZAMIENTO_FAHRENHEIT
 
 
-def fahrenheit_a_celsius(fahrenheit):
+def fahrenheit_a_celsius(fahrenheit: float) -> float:
     # Convierte grados Fahrenheit a Celsius
     resultado = (fahrenheit - DESPLAZAMIENTO_FAHRENHEIT) / FACTOR_CELSIUS_A_FAHRENHEIT
     _validar_temperatura(resultado)
     return resultado
 
 
-def km_a_millas(km):
+def km_a_millas(km: float) -> float:
     _validar_no_negativo(km, "La distancia")
     return km * FACTOR_KM_A_MILLAS
 
 
-def millas_a_km(millas):
+def millas_a_km(millas: float) -> float:
     _validar_no_negativo(millas, "La distancia")
     return millas / FACTOR_KM_A_MILLAS
 
 
-def kg_a_libras(kg):
+def kg_a_libras(kg: float) -> float:
     _validar_no_negativo(kg, "La masa")
     return kg * FACTOR_KG_A_LIBRAS
 
 
-def libras_a_kg(libras):
+def libras_a_kg(libras: float) -> float:
     _validar_no_negativo(libras, "La masa")
     return libras / FACTOR_KG_A_LIBRAS
 
 
 class Conversion(NamedTuple):
-    funcion: object
+    funcion: Callable[[float], float]
     descripcion: str
 
 
 # Registro central: clave de conversión -> Conversion
-CONVERSIONES = {
+CONVERSIONES: dict[str, Conversion] = {
     "c2f": Conversion(celsius_a_fahrenheit, "Celsius a Fahrenheit"),
     "f2c": Conversion(fahrenheit_a_celsius, "Fahrenheit a Celsius"),
     "km2mi": Conversion(km_a_millas, "Kilómetros a millas"),
@@ -77,7 +78,7 @@ CONVERSIONES = {
 }
 
 
-def convertir(valor, clave):
+def convertir(valor: float, clave: str) -> float:
     # Punto de entrada único para todas las conversiones
     if clave not in CONVERSIONES:
         disponibles = ", ".join(sorted(CONVERSIONES))

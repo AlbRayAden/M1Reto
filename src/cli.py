@@ -4,11 +4,12 @@
 
 import argparse
 import sys
+from collections.abc import Sequence
 
 from conversor import CONVERSIONES, convertir
 
 
-def construir_parser():
+def construir_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="conversor",
         description="Conversor de unidades de línea de comandos",
@@ -32,14 +33,14 @@ def construir_parser():
     return parser
 
 
-def listar_conversiones():
+def listar_conversiones() -> None:
     # Imprime la tabla de conversiones disponibles
     print("Conversiones disponibles:")
     for clave, conversion in sorted(CONVERSIONES.items()):
         print(f"  {clave:8s} {conversion.descripcion}")
 
 
-def main(argv=None):
+def main(argv: Sequence[str] | None = None) -> int:
     parser = construir_parser()
     args = parser.parse_args(argv)
 

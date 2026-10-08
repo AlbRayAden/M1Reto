@@ -25,13 +25,14 @@ pip install -r requirements.txt
 pytest -v                 # tests
 ruff check .              # linter (config en pyproject.toml)
 ruff format --check .     # formato
+mypy                      # tipos (modo strict, sólo src/)
 python src/cli.py 100 c2f # prueba manual
 ```
 
 ## Flujo de trabajo obligatorio
 
 1. **Una refactorización a la vez.** No mezcles tipos de cambio en un mismo paso.
-2. Después de cada cambio corre `pytest -v` **y** `ruff check .`. Si algo falla, corrígelo
+2. Después de cada cambio corre `pytest -v`, `ruff check .` y `mypy`. Si algo falla, corrígelo
    antes de seguir; nunca desactives ni borres un test para que pase.
 3. Un commit por refactorización, con prefijo convencional (`refactor:`, `test:`, `fix:`,
    `docs:`, `chore:`).
