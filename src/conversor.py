@@ -5,9 +5,14 @@
 # Factores de conversión (valores de referencia internacionales)
 FACTOR_KM_A_MILLAS = 0.621371
 FACTOR_KG_A_LIBRAS = 2.20462
+FACTOR_CELSIUS_A_FAHRENHEIT = 9 / 5
+DESPLAZAMIENTO_FAHRENHEIT = 32
 
 # Límite físico inferior para temperaturas en grados Celsius
 CERO_ABSOLUTO_C = -273.15
+
+# Decimales con los que convertir() redondea para una salida consistente
+DECIMALES_SALIDA = 4
 
 
 def _validar_temperatura(celsius):
@@ -24,12 +29,12 @@ def _validar_no_negativo(valor, magnitud):
 
 def celsius_a_fahrenheit(celsius):
     _validar_temperatura(celsius)
-    return celsius * 9 / 5 + 32
+    return celsius * FACTOR_CELSIUS_A_FAHRENHEIT + DESPLAZAMIENTO_FAHRENHEIT
 
 
 def fahrenheit_a_celsius(fahrenheit):
     # Convierte grados Fahrenheit a Celsius
-    resultado = (fahrenheit - 32) * 5 / 9
+    resultado = (fahrenheit - DESPLAZAMIENTO_FAHRENHEIT) / FACTOR_CELSIUS_A_FAHRENHEIT
     _validar_temperatura(resultado)
     return resultado
 
@@ -71,5 +76,4 @@ def convertir(valor, clave):
         disponibles = ", ".join(sorted(CONVERSIONES))
         raise KeyError(f"Conversión no soportada: {clave}. Usa una de: {disponibles}")
     funcion, _ = CONVERSIONES[clave]
-    # Redondeamos a 4 decimales para una salida consistente
-    return round(funcion(valor), 4)
+    return round(funcion(valor), DECIMALES_SALIDA)
