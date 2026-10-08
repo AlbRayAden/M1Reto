@@ -269,7 +269,7 @@ evita que alguien "renumere" los códigos y rompa scripts que dependen de ellos.
 ```
 $ pytest -v          → 37 passed
 $ ruff check .       → All checks passed!
-$ ruff format --check . → 4 files already formatted
+$ ruff format --check . → 8 files already formatted
 $ mypy               → Success: no issues found in 2 source files
 ```
 
